@@ -1,0 +1,213 @@
+Navodila
+Napišite program v javi, ki prikazuje izvedbo več preprostih algoritmov nad grafi, ki ste jih spoznali na predavanjih in vajah. 
+Algoritmi ustrezno (različno) delujejo tako nad usmerjenimi (ang. directed) kot neusmerjenimi (ang. undirected) grafi. 
+Za podani graf mora biti mogoče izvesti naslednje:
+
+    izpisati osnovne podatke o grafu: število vozlišč, povezav in stopnje vseh vozlišč,
+    določiti število različnih sprehodov določene dolžine med vsemi vozlišči,
+    izpisati vstopni in izstopni vrstni red obiska vozlišč pri izvedbi obhoda v globino (dfs),
+    izpisati vrstni red obiska vozlišč pri izvedbi obhoda v širino (bfs),
+    določiti in izpisati najkrajše poti od izbranega vozlišča do vseh ostalih,
+    določiti in izpisati množice (krepko) povezanih komponent ter
+    izpisati hamiltonov obhod (povezanega) neusmerjenega grafa.  
+
+Pri izvedbi algoritmov naj velja načelo, da v primeru poljubne izbire vozlišč vedno izberemo vozlišče z manjšo oznako.
+
+Opis grafa
+Opis grafa prebere program s standardnega vhoda. V drugi vrstici je podano število vozlišč, v vseh naslednjih pa s pari (i,j) povezave med vozlišči. 
+Vozlišča so označena z indeksi od 0 dalje. Pri neusmerjenem grafu zadošča, da je povezava določena le enkrat - (i,j) ali (j,i), lahko pa je določena tudi obakrat.
+ 
+Primer (za usmerjen ali neusmerjen graf):
+
+10 
+0 1 
+1 2 
+1 3 
+1 4 
+2 4 
+2 5 
+3 0 
+4 3 
+4 5 
+6 7 
+7 9
+
+Nastavitve
+
+Program v prvi vrstici standardnega vhoda prebere dve ali tri nastavitve. Prva nastavitev opiše vrsto grafa, druga akcijo in tretja parameter akcije, če ga ta potrebuje. 
+
+Vrsta grafa je lahko directed (usmerjen graf) ali undirected (neusmerjen graf). Akcije oz. algoritmi so
+
+    info - število vozlišč povezav ter (izhodne/vhodne) stopnje vozlišč
+    walks k - število sprehodov dolžine k 
+    dfs - obhod v globino
+    bfs - obhod v širino
+    sp i - najkrajše poti iz izhodišča i
+    comp - (krepko) povezane komponente
+    ham - hamiltonov obhod (samo za neusmerjen graf).
+
+Splošni podatki o grafu
+
+Ukaz info določi in izpiše v prvi vrstici število vozlišč in povezav, v drugi pa za vsako vozlišče i izpiše stopnjo vozlišča (v primeru neusmerjenega grafa) oziroma izhodno in vhodno stopnjo vozlišča (v primeru usmerjenega grafa).
+
+Primer (za neusmerjen graf iz prejšnjega primera):
+
+undirected info 
+10
+0 1 
+...
+
+10 11
+0 2
+1 4
+2 3
+3 3
+4 4
+5 2
+6 1
+7 2
+8 0
+9 1  
+
+Primer (za usmerjen graf iz prejšnjega primera):
+
+directed info 
+10
+0 1 
+...
+
+10 11
+0 1 1
+1 3 1
+2 2 1
+3 1 2
+4 2 2
+5 0 2
+6 1 0
+7 1 1
+8 0 0
+9 0 1 
+
+Število sprehodov določene dolžine med vsemi vozlišči
+
+Ukaz walks določi in izpiše matriko, ki predstavlja število sprehodov dolžine k med vsemi vozlišči (usmerjenega ali neusmerjenega) grafa.
+
+Primer (za usmerjen graf iz prejšnjega primera izpišemo število sprehodov dolžine 3):
+
+directed walks 3 
+10
+0 1 
+...
+
+1 0 0 1 1 2 0 0 0 0 
+1 1 0 1 0 1 0 0 0 0  
+1 0 0 0 0 0 0 0 0 0   
+0 0 1 1 1 0 0 0 0 0   
+0 1 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0  
+0 0 0 0 0 0 0 0 0 0   
+0 0 0 0 0 0 0 0 0 0   
+0 0 0 0 0 0 0 0 0 0   
+0 0 0 0 0 0 0 0 0 0 
+
+
+Obhod grafa v globino
+
+Ukaz dfs izvede nad (usmerjenim ali neusmerjenim) grafom obhod v globino. Pri tem začne z vozliščem 0 in poskrbi za obisk vseh vozlišč. 
+
+V prvi vrstici izpiše vstopni in v drugi izstopni vrstni red obhoda.
+
+Primer (za neusmerjen graf iz prejšnjega primera):
+
+undirected dfs 
+10
+0 1 
+... 
+
+0 1 2 4 3 5 6 7 9 8 
+3 5 4 2 1 0 9 7 6 8
+
+Obhod grafa v širino 
+
+Ukaz bfs izvede nad (usmerjenim ali neusmerjenim) grafom obhod v širino, pri čemer začne z vozliščem 0 in poskrbi za obisk vseh vozlišč. Izpiše vrstni red obhoda. 
+
+Namig: uporabiti morate ustrezno podatkovno strukturo, ki jo morate implementirati sami.
+
+Primer (za usmerjen graf iz prejšnjega primera):
+
+directed bfs
+10
+0 1 
+... 
+
+0 1 2 3 4 5 6 7 9 8
+
+
+Najkrajše poti od izbranega vozlišča do vseh ostalih
+
+Ukaz sp določi dolžine najkrajše poti od izbranega vozlišča do vseh vozlišč (usmerjenega ali neusmerjenega) grafa.
+
+ Pri tem za vsako vozlišče izpiše indeks i in dolžino poti. Pri izbranem vozlišču je oddaljenost enaka 0, za nedosegljiva vozlišča pa se izpiše vrednost -1.
+
+ Namig: za določanje najkrajših poti zadošča manjša sprememba algoritma za iskanje v širino (bfs).
+
+Primer (za neusmerjen graf iz prejšnjega primera iščemo najkrajše poti iz vozlišča 4):
+
+undirected sp 4 
+10
+0 1 
+... 
+
+0 2 
+1 1  
+2 1    
+3 1   
+4 0 
+5 1   
+6 -1   
+7 -1   
+8 -1   
+9 -1 
+
+Povezane komponente
+Ukaz comp določi povezane komponente v primeru neusmerjenga grafa oz. krepko povezane komponente v primeru usmerjenega grafa
+
+ in jih izpiše (urejene po indeksih) vsako v svojo vrstico, pri čemer so tudi vrstice urejene po indeksu prvega vozlišča. 
+
+Čeprav je izpis v primeru usmerjenega in neusmerjenega grafa enak, je treba uporabiti različne algoritme.
+
+Primer (za neusmerjen graf iz prejšnjega primera):
+
+undirected comp
+10
+0 1 
+... 
+
+0 1 2 3 4 5
+6 7 9  
+8
+
+Izpis hamiltonovega obhoda neusmerjenega grafa
+
+Ukaz ham najprej dopolni  graf, da postane povezan, nato pa vrne zaporedje vozlišč, ki predstavlja nek hamiltonov obhod. Naloga deluje le za neusmerjene grafe.
+
+Dopolnjevanje grafa je potrebno takrat, ko graf ni povezan v eno samo komponento. Pri tem upoštevajte naslednja pravila:
+
+    za graf določite povezane komponente
+    uredite komponente naraščajoče glede na indeks vozlišča z najmanjšim indeksom v komponenti
+    vsako komponento povežite z dodajanjem ene povezave z naslednjo komponento ter zadnjo komponento s prvo. Pri tem dodajte povezavo od vozlišča z najmanjšim indeksom komponente do vozlišča z največjim indeksom naslednje komponente. Na enak način povežite zadnjo komponento s prvo komponento.
+
+Osrednji del naloge je določitev hamiltonovega obhoda, ki natanko enkrat obišče vsako vozlišče grafa. Ker se mora na koncu vrniti v izhodišče upoštevajte, da obstaja tudi povezava od zadnjega do prvega vozlišča. 
+
+Hamiltonovega obhoda ni mogoče vedno določiti, lahko pa obstaja tudi več možnih obhodov. V naših testnih primerih bodo obhodi vedno mogoči. Vaša naloga je določiti katerikoli obhod na čimbolj učinkovit način. Del ocene se nanaša tudi na učinkovitost rešitve.
+
+Preverjanje hamiltonovega obhoda zahteva nekoliko drugačen pristop, zato je ocenjevanje izvedno v okviru (treh) posebnih vprašanj (en javni in dva skrita testa). Za razliko od ostalih preverjanj morate rešitev zapisati v razred Naloga3, ki ni public in nima metode main. Namesto tega obstaja statična metoda run(), ki  prebere ustrezen vhod  (navodilo in opis grafa) ter na koncu vrne niz z zaporedjem vozlišč (kot String)  - torej rezultata ne izpiše na standardni izhod kot v ostalih primerih. 
+
+Primer (za neusmerjen graf iz našega primera):
+
+undirected ham 
+10
+0 1 
+... 
+
+0 3 1 4 2 5 8 6 7 9 
